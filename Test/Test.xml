@@ -30,5 +30,5 @@
 		</div>
         
 	</div>
-    <option norimg="ic_up" hotimg="icon" selimg="ic_down" selhotimg="icon@2x" style="width:60;height:60;"></option>
+    <option id="opt1" norimg="ic_up" hotimg="icon" selimg="ic_down" selhotimg="icon@2x" style="width:60;height:60;"></option>
 </div>

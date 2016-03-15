@@ -22,6 +22,11 @@
 
 	IView *view = [IView namedView:@"Test"];
 	[self addIViewRow:view];
+    
+    IOption * op = (IOption*)[view getViewById:@"opt1"];
+    [op addEvent:IEventChange handler:^(IEventType event, IView *view) {
+        NSLog(@">>>>>>");
+    }];
 }
 
 @end

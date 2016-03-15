@@ -13,6 +13,7 @@
 
 @interface IOption(){
     UIImageView *_imageView;
+    void (^_changeHandler)(IEventType, IView *);
 }
 
 @property (nonatomic) UIImage*      normalImage;
@@ -118,7 +119,7 @@
         [self.imageView setImage:_normalImage];
         [self setNeedsLayout];
     }
-    [self fireEvent:IEventChange];
+    [self performSelector:@selector(fireChangeEvent) withObject:nil afterDelay:0.15];
 }
 
 - (void)drawRect:(CGRect)rect{
@@ -174,8 +175,15 @@
     return YES;
 }
 
+- (void)fireChangeEvent{
+    [self fireEvent:IEventChange];
+}
+
 - (void)addEvent:(IEventType)event handler:(void (^)(IEventType, IView *))handler {
     [super addEvent:event handler:handler];
+    if(event & IEventChange){
+        _changeHandler = handler;
+    }
 }
 
 - (BOOL)fireEvent:(IEventType)event{
@@ -187,6 +195,10 @@
     if (event == IEventHighlight) {
         [super fireEvent:event];
         [self highlightEvent];
+        return YES;
+    }
+    if(event == IEventChange && _changeHandler){
+        _changeHandler(event, self);
         return YES;
     }
     return [super fireEvent:event];
