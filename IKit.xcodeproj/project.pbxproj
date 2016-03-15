@@ -91,7 +91,7 @@
 		312F65431B81E30600174F85 /* ICssRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 312F65421B81E30600174F85 /* ICssRule.m */; };
 		31344D4B1AE0BE990035FEA5 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 31344D491AE0BE810035FEA5 /* libxml2.dylib */; };
 		3143BE0D1C1156D200C7ACB1 /* libIObj.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3143BE0C1C1156D200C7ACB1 /* libIObj.a */; };
-		3143BE191C14089800C7ACB1 /* IResourceMananger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3143BE181C14089800C7ACB1 /* IResourceMananger.m */; settings = {ASSET_TAGS = (); }; };
+		3143BE191C14089800C7ACB1 /* IResourceMananger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3143BE181C14089800C7ACB1 /* IResourceMananger.m */; };
 		3194B6601B2068C600CAD469 /* ITableClickToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 3194B65F1B2068C600CAD469 /* ITableClickToRefresh.m */; };
 		31B69C3F1BCF970700EC1908 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 31B69C3E1BCF970700EC1908 /* icon.png */; };
 		31B69C4A1BF1E6BB00EC1908 /* ICssDecl.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B69C491BF1E6BB00EC1908 /* ICssDecl.m */; };
@@ -115,8 +115,9 @@
 		31D2C7A01B69EBDE009C1C97 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 31D2C7971B69EBDE009C1C97 /* icon.png */; };
 		31D2C7A11B69EBDE009C1C97 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D2C7981B69EBDE009C1C97 /* Images.xcassets */; };
 		31D2C7A31B69EBDE009C1C97 /* ViewerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C79C1B69EBDE009C1C97 /* ViewerController.m */; };
-		31E0ED251C0D4A6A00331C0D /* TestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E0ED241C0D4A6A00331C0D /* TestController.m */; settings = {ASSET_TAGS = (); }; };
-		31E0ED271C0D4AB300331C0D /* Test.xml in Resources */ = {isa = PBXBuildFile; fileRef = 31E0ED261C0D4AB300331C0D /* Test.xml */; settings = {ASSET_TAGS = (); }; };
+		31E0ED251C0D4A6A00331C0D /* TestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E0ED241C0D4A6A00331C0D /* TestController.m */; };
+		31E0ED271C0D4AB300331C0D /* Test.xml in Resources */ = {isa = PBXBuildFile; fileRef = 31E0ED261C0D4AB300331C0D /* Test.xml */; };
+		C47F23051C9713CB00BAF7F4 /* IOption.m in Sources */ = {isa = PBXBuildFile; fileRef = C47F23041C9713CB00BAF7F4 /* IOption.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -313,6 +314,8 @@
 		31E0ED231C0D4A6A00331C0D /* TestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestController.h; sourceTree = "<group>"; };
 		31E0ED241C0D4A6A00331C0D /* TestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestController.m; sourceTree = "<group>"; };
 		31E0ED261C0D4AB300331C0D /* Test.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Test.xml; sourceTree = "<group>"; };
+		C47F23031C9713CB00BAF7F4 /* IOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOption.h; sourceTree = "<group>"; };
+		C47F23041C9713CB00BAF7F4 /* IOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOption.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -526,6 +529,8 @@
 				312F652E1B81DF8600174F85 /* ISwitch.m */,
 				312F652F1B81DF8600174F85 /* ITableRow.h */,
 				312F65301B81DF8600174F85 /* ITableRow.m */,
+				C47F23031C9713CB00BAF7F4 /* IOption.h */,
+				C47F23041C9713CB00BAF7F4 /* IOption.m */,
 			);
 			name = widgets;
 			path = IKit/widgets;
@@ -806,6 +811,7 @@
 				312F65361B81DF8600174F85 /* IRefreshControl.m in Sources */,
 				31B69C4A1BF1E6BB00EC1908 /* ICssDecl.m in Sources */,
 				312F65331B81DF8600174F85 /* IInput.m in Sources */,
+				C47F23051C9713CB00BAF7F4 /* IOption.m in Sources */,
 				312F65431B81E30600174F85 /* ICssRule.m in Sources */,
 				312F651C1B81DEB700174F85 /* IStyle.m in Sources */,
 				312F65381B81DF8600174F85 /* ITableRow.m in Sources */,
@@ -1008,6 +1014,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_DEBUG_INFORMATION_LEVEL = "line-tables-only";
+				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PREFIX_HEADER = IKit/PrefixHeader.pch;

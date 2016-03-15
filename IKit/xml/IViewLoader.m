@@ -20,6 +20,7 @@
 #import "IButton.h"
 #import "ISwitch.h"
 #import "IImage.h"
+#import "IOption.h"
 #import "INSXmlViewLoader.h"
 #import "IDTHTMLViewLoader.h"
 #import "IResourceMananger.h"
@@ -222,6 +223,61 @@ typedef enum{
 	return input;
 }
 
+- (IOption *)buildCheckboxWithAttributes:(NSDictionary *)attributeDict{
+    
+    NSString *norimg = [attributeDict objectForKey:@"norimg"];
+    NSString *selimg = [attributeDict objectForKey:@"selimg"];
+    NSString *hotimg = [attributeDict objectForKey:@"hotimg"];
+    NSString *selhotimg = [attributeDict objectForKey:@"selhotimg"];
+    IOption *check = [[IOption alloc] init];
+    if(norimg){
+        if([IKitUtil isDataURI:norimg]){
+            log_debug(@"load image element from data URI");
+            [check setImage:[IKitUtil loadImageFromDataURI:norimg] forState:UIControlStateNormal] ;
+        }else{
+            norimg = [IKitUtil buildPath:_basePath src:norimg];
+            [[IResourceMananger sharedMananger] loadImage:norimg callback:^(UIImage *_img) {
+               [check setImage:_img forState:UIControlStateNormal] ;
+            }];
+        }
+    }
+    if(selimg){
+        if([IKitUtil isDataURI:selimg]){
+            log_debug(@"load image element from data URI");
+            [check setImage:[IKitUtil loadImageFromDataURI:selimg] forState:UIControlStateSelected] ;
+        }else{
+            selimg = [IKitUtil buildPath:_basePath src:selimg];
+            [[IResourceMananger sharedMananger] loadImage:selimg callback:^(UIImage *_img) {
+                [check setImage:_img forState:UIControlStateSelected] ;
+            }];
+        }
+    }
+    if(hotimg){
+        if([IKitUtil isDataURI:hotimg]){
+            log_debug(@"load image element from data URI");
+            [check setImage:[IKitUtil loadImageFromDataURI:hotimg] forState:UIControlStateSelected] ;
+        }else{
+            hotimg = [IKitUtil buildPath:_basePath src:hotimg];
+            [[IResourceMananger sharedMananger] loadImage:hotimg callback:^(UIImage *_img) {
+                [check setImage:_img forState:UIControlStateHighlighted] ;
+            }];
+        }
+    }
+    if(selhotimg){
+        if([IKitUtil isDataURI:selhotimg]){
+            log_debug(@"load image element from data URI");
+            [check setImage:[IKitUtil loadImageFromDataURI:selhotimg] forState:UIControlStateSelected] ;
+        }else{
+            selhotimg = [IKitUtil buildPath:_basePath src:selhotimg];
+            [[IResourceMananger sharedMananger] loadImage:selhotimg callback:^(UIImage *_img) {
+                [check setImage:_img forState:UIControlStateFocused] ;
+            }];
+        }
+    }
+    
+    return check;
+}
+
 - (void)checkPlainTextNode{
 	if(_text.length > 0){
 		NSString *str = [self getAndResetText];
@@ -307,6 +363,8 @@ typedef enum{
 		view = [self buildImageWithAttributes:attributeDict];
 	}else if([tagName isEqualToString:@"input"]){
 		view = [self buildInputWithAttributes:attributeDict];
+    }else if ([tagName isEqualToString:@"option"]){
+        view = [self buildCheckboxWithAttributes:attributeDict];
 	}else{
 		Class clz = [IViewLoader getClassForTag:tagName];
 		// 避免嵌套的 ILabel
@@ -439,6 +497,7 @@ typedef enum{
 		
 		tagClassTable[@"switch"] = [ISwitch class];
 		tagClassTable[@"button"] = [IButton class];
+        tagClassTable[@"option"] = [IOption class];
 	}
 	return [tagClassTable objectForKey:tagName];
 }
