@@ -19,11 +19,26 @@ Pod::Spec.new do |s|
   # s.tvos.deployment_target = "9.0"
 
   # s.source       = { :git => "https://github.com/ideawu/cocoaui.git", :tag => s.version }
-  s.source       = { :git => "https://github.com/ideawu/cocoaui.git" }
+  s.source       = { :git => "https://github.com/ideawu/cocoaui.git",:tag => s.version }
 
-  s.source_files  = "IKit/*.{h,m}", "IKit/*/*.{m,h}", "IObj/*.{h,m}"
+  #s.source_files  = "IKit/*.{h,m}", "IKit/*/*.{m,h}", "IObj/*.{h,m}"
   #s.exclude_files = "Classes/Exclude"
+  s.default_subspecs = 'IKit', 'IObj'
 
+  s.subspec 'IKit' do |iKit|
+  	iKit.source_files = "IKit/*.{h,m}", "IKit/*/*.{m,h}"
+  end
+
+  s.subspec 'IKit-DTFoundation' do |iKit|
+  	iKit.source_files = "IKit/*.{h,m}","IKit/*/*.{m,h}" 
+  	iKit.exclude_files = "IKit/xml/DTHTMLParser.{h,m}"
+  	iKit.dependency "DTFoundation/DTHTMLParser", "~>1.7.2"
+  end
+
+  s.subspec 'IObj' do |iObj|
+  	iObj.source_files = "IObj/*.{h,m}"
+  end
+  
   #s.public_header_files = "IKit/*.{h}"
   s.prefix_header_contents = <<-EOS
   #ifndef IKit_PrefixHeader_pch
