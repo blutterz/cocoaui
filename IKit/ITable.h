@@ -16,6 +16,21 @@
 @class IPullRefresh;
 @class IRefreshControl;
 
+@class ITable;
+
+
+@protocol ITableDelegate <NSObject>
+@optional
+- (void)table:(ITable *)table onHighlight:(IView *)view atIndex:(NSUInteger)index;
+- (void)table:(ITable *)table onUnhighlight:(IView *)view atIndex:(NSUInteger)index;
+- (void)table:(ITable *)table onClick:(IView *)view atIndex:(NSUInteger)index;
+
+/**
+ * Must call ITable.endRefresh() when state is IRefreshBegin
+ */
+- (void)table:(ITable *)table onRefresh:(IRefreshControl *)view state:(IRefreshState)state;
+@end
+
 @interface ITable : UIViewController
 
 @property (nonatomic, readonly) IPullRefresh *pullRefresh;
@@ -24,6 +39,7 @@
 
 @property (nonatomic) IView *headerView;
 @property (nonatomic) IView *footerView;
+@property (nonatomic) UIScrollView *scrollView;
 
 - (void)clear;
 - (void)reload;
@@ -78,6 +94,11 @@
 - (void)onHighlight:(IView *)view;
 - (void)onUnhighlight:(IView *)view;
 - (void)onClick:(IView *)view;
+
+/**
+ UIViews wrapping ITable.view should provide delegate.
+ */
+@property (nonatomic, weak) id<ITableDelegate> delegate;
 
 @end
 
