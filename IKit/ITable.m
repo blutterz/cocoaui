@@ -15,11 +15,11 @@
 #import "IRefreshControl.h"
 
 @interface ITable() <UIScrollViewDelegate, IPullRefreshDelegate>{
-    NSUInteger _visibleCellIndexMin;
-    NSUInteger _visibleCellIndexMax;
-    IPullRefresh *_pullRefresh;
-    ICell *possibleSelectedCell;
-    
+	NSUInteger _visibleCellIndexMin;
+	NSUInteger _visibleCellIndexMax;
+	IPullRefresh *_pullRefresh;
+	ICell *possibleSelectedCell;
+
     // contentView 包裹着全部的 cells
     UIView *_contentView;
     // headerView 正常情况固定在顶部, 但下拉刷新时会向下滑动
@@ -38,7 +38,6 @@
     UIView *_headerRefreshWrapper;
     int fps;
 }
-
 @end
 
 @implementation ITable
@@ -74,25 +73,25 @@
 }
 
 - (void)viewDidLoad{
-    //NSLog(@"%s", __func__);
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:_scrollView];
+	//log_debug(@"%s", __func__);
+	[super viewDidLoad];
+	self.view.backgroundColor = [UIColor whiteColor];
+	[self.view addSubview:_scrollView];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    //NSLog(@"%s", __func__);
-    [super viewWillAppear:animated];
-    [self layoutViews];
+	//log_debug(@"%s", __func__);
+	[super viewWillAppear:animated];
+	[self layoutViews];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
-    //NSLog(@"%s", __func__);
-    [super viewDidAppear:animated];
-    [self layoutViews];
-    
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(deviceOrientationDidChange:) name: UIDeviceOrientationDidChangeNotification object: nil];
+	//log_debug(@"%s", __func__);
+	[super viewDidAppear:animated];
+	[self layoutViews];
+
+	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(deviceOrientationDidChange:) name: UIDeviceOrientationDidChangeNotification object: nil];
 }
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification {
@@ -123,26 +122,26 @@
 }
 
 - (void)func:(NSNumber *)arg{
-    int num = [arg intValue];
-    
-    if(num != fps){
-        CGRect old_bounds = self.view.superview.bounds;
-        CGRect bounds = self.view.superview.bounds;
-        //CGFloat width = bounds.size.height + (bounds.size.width - bounds.size.height)/fps * num;
-        CGFloat width = ((CALayer *)(self.view.layer.presentationLayer)).bounds.size.width;
-        //CGFloat height = ((CALayer *)(self.view.layer.presentationLayer)).bounds.size.height;
-        if(_contentFrame.size.width != width){
-            //NSLog(@"%2d %.1f", num, width);
-            bounds.size.width = width;
-            //bounds.size.height = height;
-            self.view.superview.bounds = bounds;
-            [self layoutViews];
-            self.view.superview.bounds = old_bounds;
-        }
-    }else{
-        fps = 0;
-        [self layoutViews];
-    }
+	int num = [arg intValue];
+
+	if(num != fps){
+		CGRect old_bounds = self.view.superview.bounds;
+		CGRect bounds = self.view.superview.bounds;
+		//CGFloat width = bounds.size.height + (bounds.size.width - bounds.size.height)/fps * num;
+		CGFloat width = ((CALayer *)(self.view.layer.presentationLayer)).bounds.size.width;
+		//CGFloat height = ((CALayer *)(self.view.layer.presentationLayer)).bounds.size.height;
+		if(_contentFrame.size.width != width){
+			//log_debug(@"%2d %.1f", num, width);
+			bounds.size.width = width;
+			//bounds.size.height = height;
+			self.view.superview.bounds = bounds;
+			[self layoutViews];
+			self.view.superview.bounds = old_bounds;
+		}
+	}else{
+		fps = 0;
+		[self layoutViews];
+	}
 }
 
 #pragma mark - datasource manipulating
@@ -402,129 +401,129 @@
 }
 
 - (void)layoutViews{
-    //NSLog(@"%s", __func__);
-    
-    _contentFrame.origin.y = 0;
-    if(_headerView){
-        _contentFrame.origin.y += _headerView.style.outerHeight;
-    }
-    if(self.view.superview){
-        //_contentFrame.size.width = self.view.superview.bounds.size.width;
-        if(!CGSizeEqualToSize(_scrollView.frame.size, self.view.frame.size)){
-            log_debug(@"change size, w: %.1f=>%.1f, h: %.1f=>%.1f", _scrollView.frame.size.width, self.view.frame.size.width, _scrollView.frame.size.height, self.view.frame.size.height);
-            CGRect frame = _scrollView.frame;
-            frame.size = self.view.frame.size;
-            _scrollView.frame = frame;
-            _contentFrame.size.width = self.view.frame.size.width;
-        }
-    }
-    _contentView.frame = _contentFrame;
-    
-    CGSize scrollSize = _contentFrame.size;
-    if(_headerView){
-        scrollSize.height += _headerView.style.outerHeight;
-    }
-    if(_footerView){
-        scrollSize.height += _footerView.style.outerHeight;
-    }
-    _scrollView.contentSize = scrollSize;
-    
-    //log_debug(@"%s frame: %.1f, offset: %.1f, size: %.1f, inset: %@", __func__, _scrollView.frame.size.height, _scrollView.contentOffset.y, _contentFrame.size.height, NSStringFromUIEdgeInsets(_scrollView.contentInset));
-    
-    [self constructVisibleCells];
-    
-    // 必须禁用动画
-    [UIView setAnimationsEnabled:NO];
-    [self layoutVisibleCells];
-    [self layoutHeaderFooterRefreshControl];
-    [self layoutHeaderFooterView];
-    [UIView setAnimationsEnabled:YES];
+	//log_debug(@"%s", __func__);
+
+	_contentFrame.origin.y = 0;
+	if(_headerView){
+		_contentFrame.origin.y += _headerView.style.outerHeight;
+	}
+	if(self.view.superview){
+		//_contentFrame.size.width = self.view.superview.bounds.size.width;
+		if(!CGSizeEqualToSize(_scrollView.frame.size, self.view.frame.size)){
+			log_debug(@"change size, w: %.1f=>%.1f, h: %.1f=>%.1f", _scrollView.frame.size.width, self.view.frame.size.width, _scrollView.frame.size.height, self.view.frame.size.height);
+			CGRect frame = _scrollView.frame;
+			frame.size = self.view.frame.size;
+			_scrollView.frame = frame;
+			_contentFrame.size.width = self.view.frame.size.width;
+		}
+	}
+	_contentView.frame = _contentFrame;
+	
+	CGSize scrollSize = _contentFrame.size;
+	if(_headerView){
+		scrollSize.height += _headerView.style.outerHeight;
+	}
+	if(_footerView){
+		scrollSize.height += _footerView.style.outerHeight;
+	}
+	_scrollView.contentSize = scrollSize;
+
+	//log_debug(@"%s frame: %.1f, offset: %.1f, size: %.1f, inset: %@", __func__, _scrollView.frame.size.height, _scrollView.contentOffset.y, _contentFrame.size.height, NSStringFromUIEdgeInsets(_scrollView.contentInset));
+
+	[self constructVisibleCells];
+
+	// 必须禁用动画
+	[UIView setAnimationsEnabled:NO];
+	[self layoutVisibleCells];
+	[self layoutHeaderFooterRefreshControl];
+	[self layoutHeaderFooterView];
+	[UIView setAnimationsEnabled:YES];
 }
 
 - (void)layoutVisibleCells{
-    for(NSUInteger i=_visibleCellIndexMin; i<=_visibleCellIndexMax; i++){
-        ICell *cell = [_cells objectAtIndex:i];
-        CGRect old_frame = cell.view.frame;
-        CGRect frame = CGRectMake(cell.x, cell.y, _scrollView.contentSize.width, cell.height);
-        if(cell.contentView && !CGRectEqualToRect(old_frame, frame)){
-            cell.view.frame = frame;
-            [cell.contentView setNeedsLayout];
-        }
-        //NSLog(@"%d %@", (int)i, NSStringFromCGRect(cell.view.frame));
-        //NSLog(@"cell#%d y=%.1f", (int)i, cell.y);
-        
-        if(cell.data && cell.contentView && !cell.contentView.data){
-            [cell.contentView setDataInternal:cell.data];
-            cell.contentView.data = cell.data;
-        }
-        
-        if(cell.contentView && cell.contentView.style.ratioHeight > 0){
-            CGRect frame = cell.view.frame;
-            //UIEdgeInsets insets = cell.table.scrollView.contentInset;
-            //frame.size.height = cell.table.scrollView.frame.size.height - insets.top - insets.bottom;
-            frame.size.height = cell.table.view.frame.size.height;
-            if(cell.view.frame.size.height != frame.size.height){
-                cell.view.frame = frame;
-                [cell.contentView setNeedsLayout];
-                //NSLog(@"%.1f=>%.1f", cell.height, frame.size.height);
-            }
-        }
-    }
+	for(NSUInteger i=_visibleCellIndexMin; i<=_visibleCellIndexMax; i++){
+		ICell *cell = [_cells objectAtIndex:i];
+		CGRect old_frame = cell.view.frame;
+		CGRect frame = CGRectMake(cell.x, cell.y, _scrollView.contentSize.width, cell.height);
+		if(cell.contentView && !CGRectEqualToRect(old_frame, frame)){
+			cell.view.frame = frame;
+			[cell.contentView setNeedsLayout];
+		}
+		//log_debug(@"%d %@", (int)i, NSStringFromCGRect(cell.view.frame));
+		//log_debug(@"cell#%d y=%.1f", (int)i, cell.y);
+
+		if(cell.data && cell.contentView && !cell.contentView.data){
+			[cell.contentView setDataInternal:cell.data];
+			cell.contentView.data = cell.data;
+		}
+
+		if(cell.contentView && cell.contentView.style.ratioHeight > 0){
+			CGRect frame = cell.view.frame;
+			//UIEdgeInsets insets = cell.table.scrollView.contentInset;
+			//frame.size.height = cell.table.scrollView.frame.size.height - insets.top - insets.bottom;
+			frame.size.height = cell.table.view.frame.size.height;
+			if(cell.view.frame.size.height != frame.size.height){
+				cell.view.frame = frame;
+				[cell.contentView setNeedsLayout];
+				//log_debug(@"%.1f=>%.1f", cell.height, frame.size.height);
+			}
+		}
+	}
 }
 
 - (void)constructVisibleCells{
-    CGFloat visibleHeight = _scrollView.frame.size.height - _scrollView.contentInset.top;
-    CGFloat minVisibleY = _scrollView.contentOffset.y + _scrollView.contentInset.top - _contentView.frame.origin.y;
-    CGFloat maxVisibleY = minVisibleY + visibleHeight;
-    NSUInteger minIndex = NSUIntegerMax;
-    NSUInteger maxIndex = 0;
-    
-    //NSLog(@"visible: %.1f, min: %.1f, max: %.1f", visibleHeight, minVisibleY, maxVisibleY);
-    //_scrollView.layer.borderWidth = 2;
-    //_scrollView.layer.borderColor = [UIColor yellowColor].CGColor;
-    
-    // 可优化, 不需要从0开始, 如二分查找
-    for(NSUInteger i=0; i<_cells.count; i++){
-        ICell *cell = [_cells objectAtIndex:i];
-        CGFloat min_y = cell.y;
-        CGFloat max_y = min_y + cell.height;
-        if(min_y > maxVisibleY){
-            // not visible
-            break;
-        }
-        if(max_y < minVisibleY){
-            // not visible
-        }else{
-            minIndex = MIN(minIndex, i);
-            maxIndex = MAX(maxIndex, i);
-        }
-    }
-    if(_visibleCellIndexMin == minIndex && _visibleCellIndexMax == maxIndex){
-        return;
-    }
-    
-    //log_debug(@"visible.index: [%d, %d]=>[%d, %d]", (int)_visibleCellIndexMin, (int)_visibleCellIndexMax, (int)minIndex, (int)maxIndex);
-    NSUInteger low = MIN(minIndex, _visibleCellIndexMin);
-    NSUInteger high = MAX(maxIndex, _visibleCellIndexMax);
-    
-    for(NSUInteger index=low; index<=high; index++){
-        if(index >= _cells.count){
-            break;
-        }
-        ICell *cell = [_cells objectAtIndex:index];
-        if(index < minIndex || index > maxIndex){
-            if(cell.view.superview){
-                [self removeVisibleCellAtIndex:index];
-            }
-            //}else if(index < _visibleCellIndexMin || index > _visibleCellIndexMax){
-        }else{
-            if(!cell.view.superview){
-                [self addVisibleCellAtIndex:index];
-            }
-        }
-    }
-    _visibleCellIndexMin = minIndex;
-    _visibleCellIndexMax = maxIndex;
+	CGFloat visibleHeight = _scrollView.frame.size.height - _scrollView.contentInset.top;
+	CGFloat minVisibleY = _scrollView.contentOffset.y + _scrollView.contentInset.top - _contentView.frame.origin.y;
+	CGFloat maxVisibleY = minVisibleY + visibleHeight;
+	NSUInteger minIndex = NSUIntegerMax;
+	NSUInteger maxIndex = 0;
+
+	//log_debug(@"visible: %.1f, min: %.1f, max: %.1f", visibleHeight, minVisibleY, maxVisibleY);
+	//_scrollView.layer.borderWidth = 2;
+	//_scrollView.layer.borderColor = [UIColor yellowColor].CGColor;
+
+	// 可优化, 不需要从0开始, 如二分查找
+	for(NSUInteger i=0; i<_cells.count; i++){
+		ICell *cell = [_cells objectAtIndex:i];
+		CGFloat min_y = cell.y;
+		CGFloat max_y = min_y + cell.height;
+		if(min_y > maxVisibleY){
+			// not visible
+			break;
+		}
+		if(max_y < minVisibleY){
+			// not visible
+		}else{
+			minIndex = MIN(minIndex, i);
+			maxIndex = MAX(maxIndex, i);
+		}
+	}
+	if(_visibleCellIndexMin == minIndex && _visibleCellIndexMax == maxIndex){
+		return;
+	}
+
+	//log_debug(@"visible.index: [%d, %d]=>[%d, %d]", (int)_visibleCellIndexMin, (int)_visibleCellIndexMax, (int)minIndex, (int)maxIndex);
+	NSUInteger low = MIN(minIndex, _visibleCellIndexMin);
+	NSUInteger high = MAX(maxIndex, _visibleCellIndexMax);
+	
+	for(NSUInteger index=low; index<=high; index++){
+		if(index >= _cells.count){
+			break;
+		}
+		ICell *cell = [_cells objectAtIndex:index];
+		if(index < minIndex || index > maxIndex){
+			if(cell.view.superview){
+				[self removeVisibleCellAtIndex:index];
+			}
+		//}else if(index < _visibleCellIndexMin || index > _visibleCellIndexMax){
+		}else{
+			if(!cell.view.superview){
+				[self addVisibleCellAtIndex:index];
+			}
+		}
+	}
+	_visibleCellIndexMin = minIndex;
+	_visibleCellIndexMax = maxIndex;
 }
 
 #pragma mark - HeaderView and FooterView
@@ -566,34 +565,34 @@
 }
 
 - (void)layoutHeaderFooterView{
-    //NSLog(@"%s", __func__);
-    if(_headerView){
-        CGFloat y = _scrollView.contentOffset.y + _scrollView.contentInset.top;
-        if(y < 0){
-            y = 0;
-        }
-        CGRect frame = _headerView.frame;
-        //frame.size.width = _scrollView.contentSize.width;
-        frame.origin.y = y;
-        _headerView.frame = frame;
-        
-        if(_headerView.frame.size.width != _scrollView.contentSize.width){
-            [_headerView setNeedsLayout];
-        }
-    }
-    if(_footerView){
-        // 锚定底部
-        //CGFloat y = _scrollView.contentOffset.y + _scrollView.frame.size.height - _footerView.frame.size.height;
-        // 不锚定底部
-        CGFloat y = _contentFrame.size.height + _contentFrame.origin.y;
-        if(_footerView.style.top != y){
-            [_footerView.style set:[NSString stringWithFormat:@"top: %f", y]];
-        }
-        
-        if(_footerView.frame.size.width != _scrollView.contentSize.width){
-            [_footerView setNeedsLayout];
-        }
-    }
+	//log_debug(@"%s", __func__);
+	if(_headerView){
+		CGFloat y = _scrollView.contentOffset.y + _scrollView.contentInset.top;
+		if(y < 0){
+			y = 0;
+		}
+		CGRect frame = _headerView.frame;
+		//frame.size.width = _scrollView.contentSize.width;
+		frame.origin.y = y;
+		_headerView.frame = frame;
+		
+		if(_headerView.frame.size.width != _scrollView.contentSize.width){
+			[_headerView setNeedsLayout];
+		}
+	}
+	if(_footerView){
+		// 锚定底部
+		//CGFloat y = _scrollView.contentOffset.y + _scrollView.frame.size.height - _footerView.frame.size.height;
+		// 不锚定底部
+		CGFloat y = _contentFrame.size.height + _contentFrame.origin.y;
+		if(_footerView.style.top != y){
+			[_footerView.style set:[NSString stringWithFormat:@"top: %f", y]];
+		}
+
+		if(_footerView.frame.size.width != _scrollView.contentSize.width){
+			[_footerView setNeedsLayout];
+		}
+	}
 }
 
 #pragma mark - HeaderRefresh and FooterRefresh
@@ -723,35 +722,35 @@
 #pragma mark - Event hanlders
 
 - (void)onHighlight:(IView *)view atIndex:(NSUInteger)index{
-    [self onHighlight:view];
-    if(_delegate && [_delegate respondsToSelector:@selector(table:onHighlight:atIndex:)]){
-        [_delegate table:self onHighlight:view atIndex:index];
-    }
+	[self onHighlight:view];
+	if(_delegate && [_delegate respondsToSelector:@selector(table:onHighlight:atIndex:)]){
+		[_delegate table:self onHighlight:view atIndex:index];
+	}
 }
 
 - (void)onUnhighlight:(IView *)view atIndex:(NSUInteger)index{
-    [self onUnhighlight:view];
-    if(_delegate && [_delegate respondsToSelector:@selector(table:onUnhighlight:atIndex:)]){
-        [_delegate table:self onUnhighlight:view atIndex:index];
-    }
+	[self onUnhighlight:view];
+	if(_delegate && [_delegate respondsToSelector:@selector(table:onUnhighlight:atIndex:)]){
+		[_delegate table:self onUnhighlight:view atIndex:index];
+	}
 }
 
 - (void)onClick:(IView *)view atIndex:(NSUInteger)index{
-    [self onClick:view];
-    if(_delegate && [_delegate respondsToSelector:@selector(table:onClick:atIndex:)]){
-        [_delegate table:self onClick:view atIndex:index];
-    }
+	[self onClick:view];
+	if(_delegate && [_delegate respondsToSelector:@selector(table:onClick:atIndex:)]){
+		[_delegate table:self onClick:view atIndex:index];
+	}
 }
 
 - (void)onRefresh:(IRefreshControl *)refreshControl state:(IRefreshState)state{
-    //log_trace(@"%s %d", __func__, state);
-    //[self layoutHeaderAndFooter];
-    if(state == IRefreshBegin){
-        [self endRefresh:refreshControl];
-    }
-    if(_delegate && [_delegate respondsToSelector:@selector(table:onRefresh:state:)]){
-        [_delegate table:self onRefresh:refreshControl state:state];
-    }
+	//log_trace(@"%s %d", __func__, state);
+	//[self layoutHeaderAndFooter];
+	if(state == IRefreshBegin){
+		[self endRefresh:refreshControl];
+	}
+	if(_delegate && [_delegate respondsToSelector:@selector(table:onRefresh:state:)]){
+		[_delegate table:self onRefresh:refreshControl state:state];
+	}
 }
 
 - (void)endRefresh:(IRefreshControl *)refreshControl{
@@ -766,18 +765,19 @@
 }
 
 // @deprecated
-- (void)onHighlight:(IView *)view{
+- (void)onClick:(IView *)view{
     //log_trace(@"%s", __func__);
+}
+
+// @deprecated
+- (void)onHighlight:(IView *)view{
+	//log_trace(@"%s", __func__);
 }
 
 // @deprecated
 - (void)onUnhighlight:(IView *)view{
-    //log_trace(@"%s", __func__);
+	//log_trace(@"%s", __func__);
 }
 
-// @deprecated
-- (void)onClick:(IView *)view{
-    //log_trace(@"%s", __func__);
-}
 
 @end

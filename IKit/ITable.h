@@ -15,7 +15,6 @@
 
 @class IPullRefresh;
 @class IRefreshControl;
-
 @class ITable;
 
 
@@ -30,6 +29,9 @@
  */
 - (void)table:(ITable *)table onRefresh:(IRefreshControl *)view state:(IRefreshState)state;
 @end
+
+
+@class ITable;
 
 @interface ITable : UIViewController
 
@@ -67,24 +69,30 @@
 - (void)insertDataRow:(id)data forTag:(NSString *)tag atIndex:(NSUInteger)index;
 - (void)insertDataRow:(id)data forTag:(NSString *)tag atIndex:(NSUInteger)index defaultHeight:(CGFloat)height;
 
-
 - (void)addDivider:(NSString *)css;
 - (void)addDivider:(NSString *)css height:(CGFloat)height;
+
+////////////////// event callbacks /////////////////////
+/*
+ Sub class of ITable should implement event callbacks.
+ */
 
 - (void)onHighlight:(IView *)view atIndex:(NSUInteger)index;
 - (void)onUnhighlight:(IView *)view atIndex:(NSUInteger)index;
 - (void)onClick:(IView *)view atIndex:(NSUInteger)index;
 
-
-- (void)onRefresh:(IRefreshControl *)refreshControl state:(IRefreshState)state;
 /**
- * Must call this method in onRefresh() when state is IRefreshBegin
+ Must call endRefresh() when state is IRefreshBegin
  */
+- (void)onRefresh:(IRefreshControl *)refreshControl state:(IRefreshState)state;
 - (void)endRefresh:(IRefreshControl *)refreshControl;
 
+/**
+ UIViews wrapping ITable.view should provide delegate.
+ */
+@property (nonatomic, weak) id<ITableDelegate> delegate;
 
-
-
+////////////////////////////////////////////////////////
 
 // @deprecated, use addDivider instead
 - (void)addSeparator:(NSString *)css;
@@ -95,10 +103,6 @@
 - (void)onUnhighlight:(IView *)view;
 - (void)onClick:(IView *)view;
 
-/**
- UIViews wrapping ITable.view should provide delegate.
- */
-@property (nonatomic, weak) id<ITableDelegate> delegate;
 
 @end
 
