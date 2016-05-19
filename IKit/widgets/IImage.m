@@ -41,9 +41,8 @@
 
 - (void)setSrc:(NSString *)src{
 	_src = src;
-	//log_debug(@"%@ load image element: %@", self.name, src);
-	[[IResourceMananger sharedMananger] loadImage:src callback:^(UIImage *img) {
-		[self setImage:img];
+	[[IResourceMananger sharedMananger] loadImageSrc:src callback:^(UIImage *_img) {
+		self.image = _img;
 	}];
 }
 
@@ -75,7 +74,7 @@
 }
 
 - (void)drawRect:(CGRect)rect {
-	//NSLog(@"%@ %s", self.name, __func__);
+	//log_debug(@"%@ %s", self.name, __func__);
 	[super drawRect:rect];
 }
 
@@ -85,11 +84,11 @@
 	if(_imageView){
 		[_imageView sizeToFit];
 		if(self.style.resizeWidth){
-			//NSLog(@"width: %f", _imageView.frame.size.width);
+			//log_debug(@"width: %f", _imageView.frame.size.width);
 			[self.style setInnerWidth:_imageView.frame.size.width];
 		}
 		if(self.style.resizeHeight){
-			//NSLog(@"height: %f", _imageView.frame.size.height);
+			//log_debug(@"height: %f", _imageView.frame.size.height);
 			[self.style setInnerHeight:_imageView.frame.size.height];
 		}
 		if(!self.style.resizeWidth && self.style.resizeHeight){

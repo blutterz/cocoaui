@@ -127,6 +127,9 @@ static CGFloat colorVal(NSString *hex){
 }
 
 + (NSString *)buildPath:(NSString *)basePath src:(NSString *)src{
+	if(!basePath){
+		return src;
+	}
 	if([IKitUtil isHttpUrl:src]){
 		return src;
 	}
@@ -164,11 +167,22 @@ static CGFloat colorVal(NSString *hex){
 	if(range.length > 0){
 		NSString *str = [src substringFromIndex:range.location + range.length];
 		NSData *data = [[NSData alloc] initWithBase64EncodedString:str options:NSDataBase64DecodingIgnoreUnknownCharacters];
-		//NSLog(@"%@", str);
+		//log_debug(@"%@", str);
 		return [UIImage imageWithData:data];
 	}
 	return nil;
 	*/
+}
+
++ (NSString *)trim:(NSString *)str{
+	return [str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
++ (NSArray *)split:(NSString *)str{
+	NSMutableArray *ps = [NSMutableArray arrayWithArray:
+						  [str componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+	[ps removeObject:@""];
+	return ps;
 }
 
 @end
