@@ -20,7 +20,7 @@
 #import "IButton.h"
 #import "ISwitch.h"
 #import "IImage.h"
-#import "IOption.h"
+#import "IRadio.h"
 #import "INSXmlViewLoader.h"
 #import "IDTHTMLViewLoader.h"
 #import "IResourceMananger.h"
@@ -223,13 +223,13 @@ typedef enum{
 	return input;
 }
 
-- (IOption *)buildCheckboxWithAttributes:(NSDictionary *)attributeDict{
+- (IRadio *)buildCheckboxWithAttributes:(NSDictionary *)attributeDict{
     
     NSString *norimg = [attributeDict objectForKey:@"norimg"];
     NSString *selimg = [attributeDict objectForKey:@"selimg"];
     NSString *hotimg = [attributeDict objectForKey:@"hotimg"];
     NSString *selhotimg = [attributeDict objectForKey:@"selhotimg"];
-    IOption *check = [[IOption alloc] init];
+    IRadio *check = [[IRadio alloc] init];
     if(norimg){
         if([IKitUtil isDataURI:norimg]){
             log_debug(@"load image element from data URI");
@@ -363,7 +363,7 @@ typedef enum{
 		view = [self buildImageWithAttributes:attributeDict];
 	}else if([tagName isEqualToString:@"input"]){
 		view = [self buildInputWithAttributes:attributeDict];
-    }else if ([tagName isEqualToString:@"option"]){
+    }else if ([tagName isEqualToString:@"radio"]){
         view = [self buildCheckboxWithAttributes:attributeDict];
 	}else{
 		Class clz = [IViewLoader getClassForTag:tagName];
@@ -497,7 +497,7 @@ typedef enum{
 		
 		tagClassTable[@"switch"] = [ISwitch class];
 		tagClassTable[@"button"] = [IButton class];
-        tagClassTable[@"option"] = [IOption class];
+        tagClassTable[@"radio"] = [IRadio class];
 	}
 	return [tagClassTable objectForKey:tagName];
 }

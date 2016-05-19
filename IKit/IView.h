@@ -33,7 +33,7 @@ typedef enum{
 @interface IView : UIView
 
 @property (nonatomic, readonly) IStyle *style;
-
+@property (nonatomic, readonly) UIView *backgroundView;
 + (IView *)viewWithUIView:(UIView *)view;
 + (IView *)viewWithUIView:(UIView *)view style:(NSString *)css;
 

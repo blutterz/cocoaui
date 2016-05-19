@@ -6,12 +6,12 @@
 //  Copyright © 2016年 ideawu. All rights reserved.
 //
 
-#import "IOption.h"
+#import "IRadio.h"
 #import "IViewInternal.h"
 #import "IStyleInternal.h"
 #import "IResourceMananger.h"
 
-@interface IOption(){
+@interface IRadio(){
     UIImageView *_imageView;
     void (^_changeHandler)(IEventType, IView *);
 }
@@ -23,13 +23,13 @@
 
 @end
 
-@implementation IOption
+@implementation IRadio
 
 - (instancetype)init {
     self = [super init];
     if (self) {
         [self.style setResizeWidth];
-        self.style.tagName = @"option";
+        self.style.tagName = @"radio";
     }
     return self;
 }

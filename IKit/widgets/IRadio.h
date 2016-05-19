@@ -8,7 +8,7 @@
 
 #import "IView.h"
 
-@interface IOption : IView
+@interface IRadio : IView
 
 @property (nonatomic, getter=isOn) BOOL on;
 
