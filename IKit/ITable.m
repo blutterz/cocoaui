@@ -168,6 +168,15 @@
     return _cells.count;
 }
 
+- (void)scrollToRowAtIndex:(NSUInteger)index animated:(BOOL)animated{
+	if(index >= _cells.count){
+		return;
+	}
+	ICell *cell = _cells[index];
+	CGRect frame = CGRectMake(0, cell.y, _contentFrame.size.width, cell.height);
+	[self.scrollView scrollRectToVisible:frame animated:animated];
+}
+
 - (void)removeRowAtIndex:(NSUInteger)index{
     ICell *cell = [_cells objectAtIndex:index];
     if(!cell){
@@ -435,9 +444,10 @@
 	// 必须禁用动画
 	[UIView setAnimationsEnabled:NO];
 	[self layoutVisibleCells];
+	[UIView setAnimationsEnabled:YES];
+	
 	[self layoutHeaderFooterRefreshControl];
 	[self layoutHeaderFooterView];
-	[UIView setAnimationsEnabled:YES];
 }
 
 - (void)layoutVisibleCells{
