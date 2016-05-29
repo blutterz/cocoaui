@@ -287,7 +287,7 @@ static NSMutableDictionary *_tagClassTable = nil;
             [check setImage:[IKitUtil loadImageFromDataURI:norimg] forState:UIControlStateNormal] ;
         }else{
             norimg = [IKitUtil buildPath:_basePath src:norimg];
-            [[IResourceMananger sharedMananger] loadImage:norimg callback:^(UIImage *_img) {
+            [[IResourceMananger sharedMananger] loadImageSrc:norimg callback:^(UIImage *_img) {
                [check setImage:_img forState:UIControlStateNormal] ;
             }];
         }
@@ -298,7 +298,7 @@ static NSMutableDictionary *_tagClassTable = nil;
             [check setImage:[IKitUtil loadImageFromDataURI:selimg] forState:UIControlStateSelected] ;
         }else{
             selimg = [IKitUtil buildPath:_basePath src:selimg];
-            [[IResourceMananger sharedMananger] loadImage:selimg callback:^(UIImage *_img) {
+            [[IResourceMananger sharedMananger] loadImageSrc:selimg callback:^(UIImage *_img) {
                 [check setImage:_img forState:UIControlStateSelected] ;
             }];
         }
@@ -309,7 +309,7 @@ static NSMutableDictionary *_tagClassTable = nil;
             [check setImage:[IKitUtil loadImageFromDataURI:hotimg] forState:UIControlStateSelected] ;
         }else{
             hotimg = [IKitUtil buildPath:_basePath src:hotimg];
-            [[IResourceMananger sharedMananger] loadImage:hotimg callback:^(UIImage *_img) {
+            [[IResourceMananger sharedMananger] loadImageSrc:hotimg callback:^(UIImage *_img) {
                 [check setImage:_img forState:UIControlStateHighlighted] ;
             }];
         }
@@ -320,7 +320,7 @@ static NSMutableDictionary *_tagClassTable = nil;
             [check setImage:[IKitUtil loadImageFromDataURI:selhotimg] forState:UIControlStateSelected] ;
         }else{
             selhotimg = [IKitUtil buildPath:_basePath src:selhotimg];
-            [[IResourceMananger sharedMananger] loadImage:selhotimg callback:^(UIImage *_img) {
+            [[IResourceMananger sharedMananger] loadImageSrc:selhotimg callback:^(UIImage *_img) {
                 [check setImage:_img forState:UIControlStateFocused] ;
             }];
         }
@@ -522,48 +522,10 @@ static NSMutableDictionary *_tagClassTable = nil;
 	//log_trace(@"    parse text: %@", str);
 	[_text appendString:str];
 }
-
-<<<<<<< HEAD
-+ (Class)getClassForTag:(NSString *)tagName{
-	static NSMutableDictionary *tagClassTable = nil;
-	if(tagClassTable == nil){
-		tagClassTable = [[NSMutableDictionary alloc] init];
-		
-		Class textClass = [ILabel class];
-		Class viewClass = [IView class];
-		
-		tagClassTable[@"a"] = textClass;
-		tagClassTable[@"b"] = textClass;
-		tagClassTable[@"label"] = textClass;
-		tagClassTable[@"span"] = textClass;
-
-		tagClassTable[@"p"] = viewClass;
-		tagClassTable[@"h1"] = viewClass;
-		tagClassTable[@"h2"] = viewClass;
-		tagClassTable[@"h3"] = viewClass;
-		tagClassTable[@"h4"] = viewClass;
-		tagClassTable[@"h5"] = viewClass;
-
-		tagClassTable[@"br"] = viewClass;
-		tagClassTable[@"hr"] = viewClass;
-		tagClassTable[@"ul"] = viewClass;
-		tagClassTable[@"ol"] = viewClass;
-		tagClassTable[@"li"] = viewClass;
-		tagClassTable[@"div"] = viewClass;
-		tagClassTable[@"view"] = viewClass;
-		
-		tagClassTable[@"switch"] = [ISwitch class];
-		tagClassTable[@"button"] = [IButton class];
-<<<<<<< HEAD
-        tagClassTable[@"radio"] = [IRadio class];
-=======
-        tagClassTable[@"option"] = [IOption class];
-=======
+        
 + (void)registerViewClass:(Class)viewClass forTag:(NSString *)tagName{
 	if(_tagClassTable == nil){
 		_tagClassTable = [[NSMutableDictionary alloc] init];
->>>>>>> f60612997b54e398507f6ba848024e617b1623ed
->>>>>>> ideawu-master
 	}
 	_tagClassTable[tagName] = viewClass;
 }
