@@ -13,7 +13,7 @@
 #import "IView.h"
 #import "IStyleSheet.h"
 
-@class ICell;
+@class ITableCell;
 @class IViewLoader;
 @class IHorCell;
 
@@ -24,6 +24,7 @@
 @property (nonatomic, weak) IView *parent;
 @property (nonatomic, readonly) NSMutableArray *subs;
 
+@property (nonatomic, weak) ITableCell *cell;
 @property (nonatomic, weak) ICell *cell;
 @property (nonatomic, weak) IHorCell *horCell;
 @property (nonatomic) int seq;
@@ -47,6 +48,9 @@
 - (void)fireClickEvent;
 
 - (IStyleSheet *)inheritedStyleSheet;
+
+- (BOOL)isRootView;
+- (BOOL)isPrimativeView;
 
 @end
 

@@ -20,6 +20,7 @@
 #import "IButton.h"
 #import "ISwitch.h"
 #import "ISelect.h"
+#import "ITextArea.h"
 #import "IImage.h"
 #import "IRadio.h"
 #import "INSXmlViewLoader.h"
@@ -140,6 +141,7 @@ static NSMutableDictionary *_tagClassTable = nil;
 	[IViewLoader registerViewClass:[ISwitch class] forTag:@"switch"];
 	[IViewLoader registerViewClass:[IButton class] forTag:@"button"];
 	[IViewLoader registerViewClass:[ISelect class] forTag:@"select"];
+	[IViewLoader registerViewClass:[ITextArea class] forTag:@"textarea"];
 }
 
 - (IStyleSheet *)styleSheet{
@@ -220,7 +222,7 @@ static NSMutableDictionary *_tagClassTable = nil;
 			src = [attributeDict objectForKey:@"href"];
 		}
 	}
-	if(src){
+	if(src && src.length > 0){
 		src = [IKitUtil buildPath:_basePath src:src];
 		IStyleSheet *sheet = [[IResourceMananger sharedMananger] loadCss:src];
 		[_styleSheet mergeWithStyleSheet:sheet];
@@ -239,7 +241,7 @@ static NSMutableDictionary *_tagClassTable = nil;
 - (IImage *)buildImageWithAttributes:(NSDictionary *)attributeDict{
 	NSString *src = [attributeDict objectForKey:@"src"];
 	IImage *img = [[IImage alloc] init];
-	if(src){
+	if(src && src.length > 0){
 		if(![IKitUtil isDataURI:src]){
 			src = [IKitUtil buildPath:_basePath src:src];
 		}
@@ -261,17 +263,17 @@ static NSMutableDictionary *_tagClassTable = nil;
 	NSString *placeholder = [attributeDict objectForKey:@"placeholder"];
 	NSString *type = [attributeDict objectForKey:@"type"];
 	NSString *value = [attributeDict objectForKey:@"value"];
-	IInput *input = [[IInput alloc] init];
+	IInput *ret = [[IInput alloc] init];
 	if(placeholder){
-		input.placeholder = placeholder;
+		ret.placeholder = placeholder;
 	}
 	if(type && [type isEqualToString:@"password"]){
-		input.isPasswordInput = YES;
+		ret.isPasswordInput = YES;
 	}
 	if(value){
-		input.value = value;
+		ret.value = value;
 	}
-	return input;
+	return ret;
 }
 
 - (IRadio *)buildCheckboxWithAttributes:(NSDictionary *)attributeDict{
@@ -493,6 +495,8 @@ static NSMutableDictionary *_tagClassTable = nil;
 		[(ILabel *)view setText:[self getAndResetText]];
 	}else if(viewClass == [IButton class]){
 		[(IButton *)view setText:[self getAndResetText]];
+	}else if(viewClass == [ITextArea class]){
+		[(ITextArea *)view setText:[self getAndResetText]];
 	}else{
 		[self checkPlainTextNode];
 	}

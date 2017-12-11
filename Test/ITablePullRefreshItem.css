@@ -12,11 +12,11 @@
 	background: #3f3;
 }
 label{margin:5 5 5 0; padding: 5;}
-.x{background: #f33;}
+.x{background: #f33; opacity: 0.6;}
 .y{background: #3f3;}
 .z{background: #ff3;}
 
-#div{margin: 10; background: #eee; width: 100%; float: center; border: 2 solid #3000;}
+#div{margin: 10 0; background: #eee; width: 200; float: center; border: 2 solid #000;}
 #div2{background: url(icon.png) no-repeat;}
 #container{background: #fff;}
 #container:hover{background: #ff6;}

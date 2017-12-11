@@ -99,8 +99,14 @@ typedef enum{
 	[super drawRect:rect];
 }
 
+- (void)updateFrame{
+	[super updateFrame];
+	_textField.frame = UIEdgeInsetsInsetRect(_textField.frame, self.style.padding);
+}
+
 - (void)layout{
 	//log_debug(@"%@ %s %@", self.name, __func__, _textField.text);
+	[super layout];
 	
 	UIFont *font = self.style.inheritedFont;
 	if(font){
@@ -116,18 +122,6 @@ typedef enum{
 		//log_debug(@"%f", _textField.frame.size.height);
 		[self.style setInnerHeight:_textField.frame.size.height];
 	}
-
-	// 先做自定义布局, 再进行父类布局
-	[super layout];
-
-	// 根据 padding 拉伸 UITextField
-	// TODO: 应该再设置 UITextField 的 padding 属性
-	CGRect frame = _textField.frame;
-	frame.origin.x += self.style.padding.left;
-	frame.origin.y += self.style.padding.top;
-	frame.size.width -= self.style.padding.left + self.style.padding.right;
-	frame.size.height -= self.style.padding.top + self.style.padding.bottom;
-	_textField.frame = frame;
 }
 
 
@@ -156,19 +150,22 @@ typedef enum{
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-	UITextPosition *begin = textField.beginningOfDocument;
-	UITextPosition *cursor = [textField positionFromPosition:begin offset:(range.location + string.length)];
-
-	NSString *newStr = [textField.text stringByReplacingCharactersInRange:range withString:string];
-	//log_debug(@"old=%@, replace=%@, new=%@ range=%@", self.value, string, newStr, NSStringFromRange(range));
-	textField.text = newStr;
-	
-	if(cursor){
-		[textField setSelectedTextRange:[textField textRangeFromPosition:cursor toPosition:cursor]];
-	}
-	
 	[self fireEvent:IEventChange];
-	return NO;
+	return YES;
+	// 不支持中文
+//	UITextPosition *begin = textField.beginningOfDocument;
+//	UITextPosition *cursor = [textField positionFromPosition:begin offset:(range.location + string.length)];
+//
+//	NSString *newStr = [textField.text stringByReplacingCharactersInRange:range withString:string];
+//	log_debug(@"old=%@, replace=%@, new=%@ range=%@", self.value, string, newStr, NSStringFromRange(range));
+//	textField.text = newStr;
+//
+//	if(cursor){
+//		[textField setSelectedTextRange:[textField textRangeFromPosition:cursor toPosition:cursor]];
+//	}
+//
+//	[self fireEvent:IEventChange];
+//	return NO;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{

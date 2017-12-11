@@ -32,6 +32,7 @@
 
 @interface IStyle (){
 	CGFloat _ratioWidth, _ratioHeight;
+	CGFloat _opacity;
 	UIFont *_font;
 	UIColor *_color;
 	IStyleTextAlign _textAlign;
@@ -77,6 +78,7 @@
 	_resizeType = IStyleResizeBoth;
 	//_resizeType = IStyleResizeHeight;
 	_ratioWidth = 1;
+	_opacity = 1.0;
 	
 	_borderLeft = [[IStyleBorder alloc] init];
 	_borderRight = [[IStyleBorder alloc] init];
@@ -144,10 +146,6 @@
 	return _resizeType == IStyleResizeBoth;
 }
 
-- (void)setResizeWidth{
-	_resizeType |= IStyleResizeWidth;
-}
-
 - (CGSize)size{
 	return CGSizeMake(self.w, self.h);
 }
@@ -155,41 +153,30 @@
 - (void)setSize:(CGSize)size{
 	[self setWidth:size.width];
 	[self setHeight:size.height];
-	[_view setNeedsLayout];
 }
 
 - (CGFloat)width{
 	return _w;
 }
 
-- (void)setWidth:(CGFloat)w{
-	_w = w;
-	_ratioWidth = 0;
-	_resizeType &= ~IStyleResizeWidth;
-	[_view setNeedsLayout];
-}
-
 - (CGFloat)height{
 	return _h;
 }
 
+- (void)setWidth:(CGFloat)w{
+	[self set:[NSString stringWithFormat:@"width: %f", w]];
+}
+
 - (void)setHeight:(CGFloat)h{
-	_h = h;
-	_ratioHeight = 0;
-	_resizeType &= ~IStyleResizeHeight;
-	[_view setNeedsLayout];
+	[self set:[NSString stringWithFormat:@"height: %f", h]];
 }
 
 - (void)setRatioWidth:(CGFloat)rw{
-	_w = 0;
-	_ratioWidth = rw;
-	_resizeType &= ~IStyleResizeWidth;
+	[self set:[NSString stringWithFormat:@"width: %f%%", rw*100]];
 }
 
 - (void)setRatioHeight:(CGFloat)rh{
-	_h = 0;
-	_ratioHeight = rh;
-	_resizeType &= ~IStyleResizeHeight;
+	[self set:[NSString stringWithFormat:@"height: %f%%", rh*100]];
 }
 
 - (CGFloat)ratioWidth{
@@ -224,6 +211,14 @@
 
 - (CGFloat)outerHeight{
 	return _h + _margin.top + _margin.bottom;
+}
+
+- (CGFloat)opacity{
+	return _opacity;
+}
+
+- (void)setOpacity:(CGFloat)opacity{
+	[self set:[NSString stringWithFormat:@"opacity: %f", opacity]];
 }
 
 - (CGRect)rect{
@@ -437,12 +432,15 @@
 			_resizeType |= IStyleResizeWidth;
 			return;
 		}
+		_resizeType &= ~IStyleResizeWidth;
 		
 		float f = [v floatValue];
 		if([v rangeOfString:@"%"].location == NSNotFound){
-			[self setWidth:f];
+			_w = f;
+			_ratioWidth = 0;
 		}else{
-			[self setRatioWidth:f/100];
+			_w = 0;
+			_ratioWidth = f/100;
 		}
 		//log_trace(@"w = %f, ratioW = %f", self.w, self.ratioWidth);
 	}else if([k isEqualToString:@"height"]){
@@ -453,14 +451,36 @@
 			_resizeType |= IStyleResizeHeight;
 			return;
 		}
+		_resizeType &= ~IStyleResizeHeight;
 		
 		float f = [v floatValue];
 		if([v rangeOfString:@"%"].location == NSNotFound){
-			[self setHeight:f];
+			_h = f;
+			_ratioHeight = 0;
 		}else{
-			[self setRatioHeight:f/100];
+			_h = 0;
+			_ratioHeight = f/100;
 		}
 		//log_trace(@"h = %f, ratioH = %f", self.h, self.ratioH);
+	}else if([k isEqualToString:@"aspect-ratio"]){
+		needsLayout = YES;
+		if([v isEqualToString:@"auto"]){
+			_aspectRatio = 0;
+			return;
+		}
+		
+		float f = [v floatValue];
+		if([v rangeOfString:@"%"].location == NSNotFound){
+			if([v rangeOfString:@"/"].location == NSNotFound){
+				_aspectRatio = f;
+			}else{
+				NSArray *ps = [v componentsSeparatedByString:@"/"];
+				f = ((NSString *)ps[0]).floatValue / ((NSString *)ps[1]).floatValue;
+				_aspectRatio = f;
+			}
+		}else{
+			_aspectRatio = f/100;
+		}
 	}else if([k isEqualToString:@"margin"]){
 		needsLayout = YES;
 		_margin = [self parseEdge:v];
@@ -568,6 +588,9 @@
 		needsDisplay = YES;
 		[self parseBackground:v baseUrl:baseUrl];
 		//log_trace(@"background: %@", self.backgroundColor);
+	}else if([k isEqualToString:@"opacity"]){
+		needsDisplay = YES;
+		_opacity = [v floatValue];
 	}else if([k isEqualToString:@"left"]){
 		needsLayout = YES;
 		_left = [v floatValue];
@@ -651,7 +674,7 @@
 }
 
 - (UIEdgeInsets)parseEdge:(NSString *)v{
-	UIEdgeInsets edge;
+	UIEdgeInsets edge = UIEdgeInsetsZero;
 	NSArray *ps = [IKitUtil split:v];
 	if(ps.count == 1){
 		edge.left = edge.right = edge.top = edge.bottom = [ps[0] floatValue];

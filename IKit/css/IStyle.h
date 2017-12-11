@@ -31,7 +31,11 @@
 /**
  * The size, both width and height include border, padding, content
  */
-@property (nonatomic, readonly) CGSize size;
+@property (nonatomic) CGSize size;
+/**
+ * width/height ratio
+ */
+@property (nonatomic, readonly) CGFloat aspectRatio;
 /**
  * The content width
  */
@@ -48,6 +52,8 @@
  * The height, including margin, border, padding, content
  */
 @property (nonatomic, readonly) CGFloat outerHeight;
+
+@property (nonatomic) CGFloat opacity;
 
 /**
  * supported property names: float, clear, width, height, margin
