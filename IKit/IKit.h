@@ -25,5 +25,6 @@
 #import "IImage.h"
 #import "IRefreshControl.h"
 #import "IHorTable.h"
+#import "IRadio.h"
 
 #endif

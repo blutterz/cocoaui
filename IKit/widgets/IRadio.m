@@ -28,7 +28,6 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self.style setResizeWidth];
         self.style.tagName = @"radio";
     }
     return self;

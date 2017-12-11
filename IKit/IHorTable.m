@@ -15,7 +15,7 @@
 @property(nonatomic, assign) NSUInteger visibleCellIndexMin;
 @property(nonatomic, assign) NSUInteger visibleCellIndexMax;
 
-@property(nonatomic, strong) ICell* possibleSelectedCell;
+@property(nonatomic, strong) ITableCell* possibleSelectedCell;
 @property(nonatomic, strong) UIView* contentView;
 
 @property(nonatomic, strong) NSMutableDictionary* tagViews;
