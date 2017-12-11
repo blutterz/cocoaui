@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "CocoaUI"
-  s.version      = "1.2.5"
+  s.version      = "1.2.7"
   s.summary      = "Build adaptive UI for iOS Apps with Flow-Layout mechanism and CSS properties."
 
   s.homepage     = "http://www.cocoaui.com"
