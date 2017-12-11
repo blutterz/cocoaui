@@ -95,10 +95,6 @@
 		31344D4B1AE0BE990035FEA5 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 31344D491AE0BE810035FEA5 /* libxml2.dylib */; };
 		3143BE0D1C1156D200C7ACB1 /* libIObj.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3143BE0C1C1156D200C7ACB1 /* libIObj.a */; };
 		3143BE191C14089800C7ACB1 /* IResourceMananger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3143BE181C14089800C7ACB1 /* IResourceMananger.m */; };
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
 		3144022D1CAA309F00A50D1D /* ITableInUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3144022C1CAA309F00A50D1D /* ITableInUIView.m */; };
 		314402301CAA314300A50D1D /* ITablePullRefreshItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3144022F1CAA314300A50D1D /* ITablePullRefreshItem.m */; };
 		316E3B811CD9E8BB0057B69E /* login.css in Resources */ = {isa = PBXBuildFile; fileRef = 316E3B7F1CD9E8BB0057B69E /* login.css */; };
@@ -107,8 +103,6 @@
 		316E3B881CD9E9190057B69E /* ic_name.png in Resources */ = {isa = PBXBuildFile; fileRef = 316E3B841CD9E9190057B69E /* ic_name.png */; };
 		316E3B891CD9E9190057B69E /* ic_pass.png in Resources */ = {isa = PBXBuildFile; fileRef = 316E3B851CD9E9190057B69E /* ic_pass.png */; };
 		316E3B8A1CD9E9190057B69E /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 316E3B861CD9E9190057B69E /* user.png */; };
->>>>>>> f60612997b54e398507f6ba848024e617b1623ed
->>>>>>> ideawu-master
 		3194B6601B2068C600CAD469 /* ITableClickToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 3194B65F1B2068C600CAD469 /* ITableClickToRefresh.m */; };
 		31A3A97C1E8542F300922107 /* ITableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A3A97B1E8542F300922107 /* ITableView.m */; };
 		31A3A97F1E85547800922107 /* IRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A3A97E1E85547800922107 /* IRefreshControl.m */; };
@@ -137,13 +131,7 @@
 		31D2C7A31B69EBDE009C1C97 /* ViewerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C79C1B69EBDE009C1C97 /* ViewerController.m */; };
 		31E0ED251C0D4A6A00331C0D /* TestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E0ED241C0D4A6A00331C0D /* TestController.m */; };
 		31E0ED271C0D4AB300331C0D /* Test.xml in Resources */ = {isa = PBXBuildFile; fileRef = 31E0ED261C0D4AB300331C0D /* Test.xml */; };
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 		C47F23051C9713CB00BAF7F4 /* IOption.m in Sources */ = {isa = PBXBuildFile; fileRef = C47F23041C9713CB00BAF7F4 /* IOption.m */; };
-=======
->>>>>>> f60612997b54e398507f6ba848024e617b1623ed
->>>>>>> ideawu-master
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -595,18 +583,12 @@
 				31CFA3DC1CDAFCD100360734 /* ISelect.m */,
 				312F652F1B81DF8600174F85 /* ITableRow.h */,
 				312F65301B81DF8600174F85 /* ITableRow.m */,
-<<<<<<< HEAD
 				C47F23031C9713CB00BAF7F4 /* IRadio.h */,
 				C47F23041C9713CB00BAF7F4 /* IRadio.m */,
-=======
-<<<<<<< HEAD
 				C47F23031C9713CB00BAF7F4 /* IOption.h */,
 				C47F23041C9713CB00BAF7F4 /* IOption.m */,
-=======
 				312F652B1B81DF8600174F85 /* IRefreshControl.h */,
 				312F652C1B81DF8600174F85 /* IRefreshControl.m */,
->>>>>>> f60612997b54e398507f6ba848024e617b1623ed
->>>>>>> ideawu-master
 			);
 			name = widgets;
 			path = IKit/widgets;
