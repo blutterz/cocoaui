@@ -668,7 +668,8 @@
 		edge.right  = [ps[1] floatValue];
 		edge.bottom = [ps[2] floatValue];
 		edge.left   = [ps[3] floatValue];
-	}
+    } else {
+    }
 	return edge;
 }
 

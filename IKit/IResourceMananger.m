@@ -189,7 +189,7 @@ static IResourceMananger *_sharedMananger;
 			NSData *data = [NSData dataWithContentsOfFile:src];
 			img = [UIImage imageWithData:data];
 		}
-		log_debug(@"load img from local: %@", src);
+		//log_debug(@"load img from local: %@", src);
 		if(img){
 			if(callback){
 				callback(img);

@@ -15,6 +15,7 @@
 #import "IViewLoader.h"
 #import "IStyleSheet.h"
 #import "ICssRule.h"
+#import "IHorCell.h"
 
 @interface IView (){
 	id _data;
@@ -328,6 +329,10 @@
 	if(self.isRootView && self.cell != nil){
 		self.cell.height = _style.outerHeight;
 	}
+    
+    if (self.isRootView && self.horCell != nil) {
+        self.horCell.width = _style.outerWidth;
+    }
 	// 显示背景图, 必须要重新设置, 不然改变尺寸时背景不变动
 	if(self.layer.contents){
 		self.layer.contents = self.layer.contents;

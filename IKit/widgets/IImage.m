@@ -83,6 +83,7 @@
 	
 	if(_imageView){
 		[_imageView sizeToFit];
+        //log_debug(@"%f %f %f %f", _imageView.frame.origin.x ,_imageView.frame.origin.y ,_imageView.frame.size.width, _imageView.frame.size.height);
 		if(self.style.resizeWidth){
 			//log_debug(@"width: %f", _imageView.frame.size.width);
 			[self.style setInnerWidth:_imageView.frame.size.width];
